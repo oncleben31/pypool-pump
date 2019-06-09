@@ -25,7 +25,7 @@ class FilteringDuration(object):
 
 
 class DumbFilteringDuration(FilteringDuration):
-    """Basic calulation method with taking temperaure/2"""
+    """Dumb calulation method with taking temperaure/2"""
 
     @property
     def duration(self):
@@ -38,7 +38,24 @@ class DumbFilteringDuration(FilteringDuration):
             return filtering_duration
 
 
-# TODO: basic min < 10° / /2  / 24 > 30°
+class BasicFilteringDuration(FilteringDuration):
+    """Basic calculation method with temperature/2 and specificities
+    below 10°C and above 30°C
+    """
+
+    @property
+    def duration(self):
+        filtering_duration = self._pool_mean_temperature / 2
+        if self._pool_mean_temperature < 10:
+            # No need to filter below 10°C.
+            return 0
+        elif self._pool_mean_temperature >= 30:
+            # Above 30°C it is recommanded to filter continuously.
+            return 24
+        else:
+            return filtering_duration
+
+
 # TODO: courbe
 # TODO: caractéristique pompe.
-
+# TODO: ajouter modificateur nombre de personne.
