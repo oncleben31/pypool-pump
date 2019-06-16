@@ -24,3 +24,8 @@ def test_basic_duration(temperature, duration):
     pool_controler = BasicFilteringDuration(temperature)
     assert pool_controler.duration == duration
 
+
+def test_basic_duration_with_modifier():
+    """Test modifiers on duration calulation"""
+    pool_controler = BasicFilteringDuration(14, 110)
+    assert abs(pool_controler.duration - (7 * 1.1)) < 0.1

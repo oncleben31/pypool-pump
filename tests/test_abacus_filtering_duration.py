@@ -26,3 +26,4 @@ def test_abacus_duration(temperature, duration):
     pool_controler = AbacusFilteringDuration(temperature)
     # assert pool_controler.duration == duration
     assert abs(pool_controler.duration - duration) < 0.1
+
