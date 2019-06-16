@@ -13,6 +13,7 @@ from setuptools import Command, find_packages, setup
 
 # Package meta-data.
 NAME = "pypool-pump"
+PYTHON_PACKAGE_FOLDER = "pypool_pump"
 DESCRIPTION = "Pool filtering pump duration"
 URL = "https://github.com/oncleben31/pypool-pump"
 EMAIL = "oncleben31@gmail.com"
@@ -38,7 +39,7 @@ with io.open(os.path.join(here, "README.md"), encoding="utf-8") as f:
 # Load the package's __version__.py module as a dictionary.
 about = {}
 if not VERSION:
-    with open(os.path.join(here, "src", NAME, "__version__.py")) as f:
+    with open(os.path.join(here, "src", PYTHON_PACKAGE_FOLDER, "__version__.py")) as f:
         exec(f.read(), about)
 else:
     about["__version__"] = VERSION
