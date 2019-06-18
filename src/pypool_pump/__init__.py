@@ -9,12 +9,10 @@ from .__version__ import __version__, VERSION
 class FilteringDuration(object):
     """Root class with common parts"""
 
-    def __init__(self, temperature: float = None, percentage: float = None):
-        self._pool_mean_temperature = temperature
+    def __init__(self, percentage: float = None):
         self._computed_filtering_duration = None
         self._modifier_pecentage = percentage
 
-    @property
     def duration(self) -> float:
         """Filtering duration in hours
         
@@ -22,37 +20,21 @@ class FilteringDuration(object):
         duration.
         Maximum duration is always 24 hours.
         """
+        consolidated_duration = max(min(self._computed_filtering_duration, 24), 0)
         if self._modifier_pecentage is None:
-            return min(self._computed_filtering_duration, 24)
+            return consolidated_duration
         else:
-            return min(
-                self._computed_filtering_duration * self._modifier_pecentage / 100, 24
-            )
-
-    @property
-    def pool_mean_temperature(self) -> float:
-        """Pool temerature in °C"""
-        return self._pool_mean_temperature
-
-    @pool_mean_temperature.setter
-    def pool_mean_temperature(self, temperature: float):
-        """Setter for pool temperature in °C"""
-        self._pool_mean_temperature = temperature
+            return consolidated_duration * self._modifier_pecentage / 100
 
 
 class DumbFilteringDuration(FilteringDuration):
     """Dumb duration calulation method with taking temperature/2"""
 
-    @property
-    def duration(self) -> float:
+    def duration(self, pool_temperature: float) -> float:
         """Filtering duration in hours"""
-        filtering_duration = self._pool_mean_temperature / 2
-        if filtering_duration < 0:
-            self._computed_filtering_duration = 0
-        else:
-            self._computed_filtering_duration = filtering_duration
+        self._computed_filtering_duration = pool_temperature / 2
 
-        return super().duration
+        return super().duration()
 
 
 class BasicFilteringDuration(FilteringDuration):
@@ -63,22 +45,21 @@ class BasicFilteringDuration(FilteringDuration):
     - continuous filtration above 30°C
     """
 
-    @property
-    def duration(self) -> float:
+    def duration(self, pool_temperature: float) -> float:
         """Filtering duration in hours"""
-        if self._pool_mean_temperature < 10:
+        if pool_temperature < 10:
             # No need to filter below 10°C.
             self._computed_filtering_duration = 0
-        elif self._pool_mean_temperature < 14:
+        elif pool_temperature < 14:
             # between 10 and 14 we can reduce filtering
-            self._computed_filtering_duration = self._pool_mean_temperature / 3
-        elif self._pool_mean_temperature >= 30:
+            self._computed_filtering_duration = pool_temperature / 3
+        elif pool_temperature >= 30:
             # Above 30°C it is recommanded to filter continuously.
             self._computed_filtering_duration = 24
         else:
-            self._computed_filtering_duration = self._pool_mean_temperature / 2
+            self._computed_filtering_duration = pool_temperature / 2
 
-        return super().duration
+        return super().duration()
 
 
 class AbacusFilteringDuration(FilteringDuration):
@@ -90,11 +71,10 @@ class AbacusFilteringDuration(FilteringDuration):
     Formula discovered here: https://github.com/scadinot/pool
     """
 
-    @property
-    def duration(self) -> float:
+    def duration(self, pool_temperature: float) -> float:
         """Filtering duration in hours"""
         # Force temperature at a 10°C minimum to ensure minimum filtration.
-        temperature = max(self._pool_mean_temperature, 10)
+        temperature = max(pool_temperature, 10)
 
         self._computed_filtering_duration = (
             0.00335 * temperature ** 3
@@ -103,8 +83,46 @@ class AbacusFilteringDuration(FilteringDuration):
             - 10.72859
         )
 
-        return super().duration
+        return super().duration()
+
+
+class PumpCaracteristicFilteringDuration(FilteringDuration):
+    """Advanced calculatin method using the caracteristic of your water pump and your 
+    pool.
+    """
+
+    def __init__(self, pool_volume: float, pump_flow: float, percentage: float = None):
+        self.pool_volume = pool_volume
+        self.pump_flow = pump_flow
+        super().__init__(percentage)
+
+    def duration(
+        self, pool_temperature: float, number_of_bathers: float = None
+    ) -> float:
+        """Filtering duration in hours"""
+        cycle_duration = self.pool_volume / self.pump_flow
+
+        if pool_temperature > 25:
+            self._computed_filtering_duration = 3 * cycle_duration
+            # TODO: +2 hours if > 28°c ?
+        elif pool_temperature > 20:
+            self._computed_filtering_duration = 2 * cycle_duration
+        elif pool_temperature > 15:
+            self._computed_filtering_duration = 1 * cycle_duration
+        elif pool_temperature > 10:
+            self._computed_filtering_duration = 0.5 * cycle_duration
+        else:
+            self._computed_filtering_duration = 0
+
+        if number_of_bathers is not None:
+            bather_modifier = number_of_bathers / self.pump_flow * 2
+            self._computed_filtering_duration = (
+                self._computed_filtering_duration + bather_modifier
+            )
+
+        return super().duration()
 
 
 # TODO: caractéristique pompe.
 # TODO: ajouter modificateur nombre de personne.
+# TODO: ajouter modificateur pour temps lours ou orageux

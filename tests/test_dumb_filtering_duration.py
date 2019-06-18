@@ -11,6 +11,6 @@ from pypool_pump import DumbFilteringDuration
 )
 def test_dumb_duration(temperature, duration):
     """Test duration calculation."""
-    pool_controler = DumbFilteringDuration(temperature)
-    assert pool_controler.duration == duration
+    pool_controler = DumbFilteringDuration()
+    assert pool_controler.duration(temperature) == duration
 

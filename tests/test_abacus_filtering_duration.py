@@ -23,7 +23,7 @@ from pypool_pump import AbacusFilteringDuration
 )
 def test_abacus_duration(temperature, duration):
     """Test duration calculation."""
-    pool_controler = AbacusFilteringDuration(temperature)
+    pool_controler = AbacusFilteringDuration()
     # assert pool_controler.duration == duration
-    assert abs(pool_controler.duration - duration) < 0.1
+    assert abs(pool_controler.duration(temperature) - duration) < 0.1
 

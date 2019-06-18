@@ -21,11 +21,11 @@ from pypool_pump import BasicFilteringDuration
 )
 def test_basic_duration(temperature, duration):
     """Test duration calculation."""
-    pool_controler = BasicFilteringDuration(temperature)
-    assert pool_controler.duration == duration
+    pool_controler = BasicFilteringDuration()
+    assert pool_controler.duration(temperature) == duration
 
 
 def test_basic_duration_with_modifier():
     """Test modifiers on duration calulation"""
-    pool_controler = BasicFilteringDuration(14, 110)
-    assert abs(pool_controler.duration - (7 * 1.1)) < 0.1
+    pool_controler = BasicFilteringDuration(110)
+    assert abs(pool_controler.duration(14) - (7 * 1.1)) < 0.1
