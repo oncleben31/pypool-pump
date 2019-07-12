@@ -10,7 +10,7 @@ Each classes is an implementation of a different algorithm found when searching 
 
 ### Base class
 
-`FilteringDuration()`class is the base class with no duration computation. It gather all the common code for each implementation. 
+`FilteringDuration()`class is the base class with no duration computation. It gather all the common code for each implementation.
 
 You should not call directly this class except if you want to implement a new algorithm.
 
@@ -21,20 +21,20 @@ You should not call directly this class except if you want to implement a new al
 
 Reference: the poster delivered with my swimming pool
 
-###  Basic algorithm
+### Basic algorithm
 
-`BasicFilteringDuration()` is  child class with an implementation of the previous algorithm with some optimizations: 
+`BasicFilteringDuration()` is  child class with an implementation of the previous algorithm with some optimizations:
 
- - No need to filter if water temperature below 10°C
- - Between 10°C and 14°C we can reduce the duration (water temperature in °C / 3)
- - Between 14°C and 30°C we use the standard rule (water temperature in °C / 2)
- - Above 30°C continuous filtering.
+- No need to filter if water temperature below 10°C
+- Between 10°C and 14°C we can reduce the duration (water temperature in °C / 3)
+- Between 14°C and 30°C we use the standard rule (water temperature in °C / 2)
+- Above 30°C continuous filtering.
 
 Reference: To be completed
 
 ### Abacus based algorithm
 
-`AbacusFilteringDuration()`is  child class with an implementation of a water temperature based abacus. I found this when searching potential existing module on Github. 
+`AbacusFilteringDuration()`is  child class with an implementation of a water temperature based abacus. I found this when searching potential existing module on Github.
 
 Reference: this abacus is used in the [Jeedom pool addon](https://github.com/scadinot/pool) by @scadinot.
 
@@ -52,9 +52,6 @@ If you want to contribute to the development:
 - Create a branch for your feature
 - Test your change using `tox`
 - Send a PR when ready.
-
-## References
-
 
 ## License
 
