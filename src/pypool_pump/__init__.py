@@ -9,9 +9,9 @@ from .__version__ import __version__, VERSION
 class FilteringDuration(object):
     """Root class with common parts"""
 
-    def __init__(self, percentage: float = None):
-        self._computed_filtering_duration = None
-        self._modifier_pecentage = percentage
+    def __init__(self, percentage: float = None) -> None:
+        self._computed_filtering_duration: float = None
+        self._modifier_pecentage: float = percentage
 
     def duration(self) -> float:
         """Filtering duration in hours
@@ -20,7 +20,9 @@ class FilteringDuration(object):
         duration.
         Maximum duration is always 24 hours.
         """
-        consolidated_duration = max(min(self._computed_filtering_duration, 24), 0)
+        consolidated_duration: float = max(
+            min(self._computed_filtering_duration, 24), 0
+        )
         if self._modifier_pecentage is None:
             return consolidated_duration
         else:
@@ -74,7 +76,7 @@ class AbacusFilteringDuration(FilteringDuration):
     def duration(self, pool_temperature: float) -> float:
         """Filtering duration in hours"""
         # Force temperature at a 10°C minimum to ensure minimum filtration.
-        temperature = max(pool_temperature, 10)
+        temperature: float = max(pool_temperature, 10)
 
         self._computed_filtering_duration = (
             0.00335 * temperature ** 3
@@ -91,7 +93,9 @@ class PumpCaracteristicFilteringDuration(FilteringDuration):
     pool.
     """
 
-    def __init__(self, pool_volume: float, pump_flow: float, percentage: float = None):
+    def __init__(
+        self, pool_volume: float, pump_flow: float, percentage: float = None
+    ) -> None:
         self.pool_volume = pool_volume
         self.pump_flow = pump_flow
         super().__init__(percentage)
@@ -100,7 +104,7 @@ class PumpCaracteristicFilteringDuration(FilteringDuration):
         self, pool_temperature: float, number_of_bathers: float = None
     ) -> float:
         """Filtering duration in hours"""
-        cycle_duration = self.pool_volume / self.pump_flow
+        cycle_duration: float = self.pool_volume / self.pump_flow
 
         if pool_temperature > 25:
             self._computed_filtering_duration = 3 * cycle_duration
@@ -115,7 +119,7 @@ class PumpCaracteristicFilteringDuration(FilteringDuration):
             self._computed_filtering_duration = 0
 
         if number_of_bathers is not None:
-            bather_modifier = number_of_bathers / self.pump_flow * 2
+            bather_modifier: float = number_of_bathers / self.pump_flow * 2
             self._computed_filtering_duration = (
                 self._computed_filtering_duration + bather_modifier
             )
