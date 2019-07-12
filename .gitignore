@@ -37,3 +37,6 @@ pip-selfcheck.json
 
 #Visual Studio Code
 .vscode/
+
+# Type hint
+monkeytype.sqlite3
