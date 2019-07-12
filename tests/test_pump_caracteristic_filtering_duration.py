@@ -26,3 +26,11 @@ def test_pool_caracteristic_duration(temperature, duration):
     pool_controler = PumpCaracteristicFilteringDuration(40, 10)
     assert abs(pool_controler.duration(temperature) - duration) < 0.1
 
+
+@pytest.mark.parametrize(
+    "number_of_bathers, duration", [(0, 4), (2, 4.4), (4, 4.8), (10, 6.0)]
+)
+def test_pool_caracteristic_duration_with_bathers(number_of_bathers, duration):
+    """Test duration calculation."""
+    pool_controler = PumpCaracteristicFilteringDuration(40, 10)
+    assert abs(pool_controler.duration(20, number_of_bathers) - duration) < 0.1
