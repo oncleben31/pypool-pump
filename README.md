@@ -2,15 +2,16 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-PyPoolPump is a python module providing classes for computing the duration needed for a swimming pool filtering pump.
+**PyPoolPump** is a python module providing classes for computing the duration needed for a swimming pool filtering pump.
 
-Each classes is an implementation of a different algorithm found when searching Internet to find best way to compute the filtering pump.
+Each classes is an implementation of a different algorithm found when searching Internet to find best way to compute the filtering pump duration.
 
 ## Classes description
 
 ### Base class
 
 `FilteringDuration()`class is the base class with no duration computation. It gather all the common code for each implementation.
+You will find a way to add a percentage modifier on the duration computed.
 
 You should not call directly this class except if you want to implement a new algorithm.
 
@@ -34,13 +35,13 @@ Reference: To be completed
 
 ### Abacus based algorithm
 
-`AbacusFilteringDuration()`is  child class with an implementation of a water temperature based abacus. I found this when searching potential existing module on Github.
+`AbacusFilteringDuration()`is a child class with an implementation of a water temperature based abacus. I found this when searching potential existing module on Github.
 
 Reference: this abacus is used in the [Jeedom pool addon](https://github.com/scadinot/pool) by @scadinot.
 
 ### Advanced algorithm
 
-`PumpCaracteristicFilteringDuration()` is a child class with an implementation of an algorithm based on the pool dimension and the pump characteristics.
+`PumpCaracteristicFilteringDuration()` is a child class with an implementation of an algorithm based on the pool dimension, the pump characteristics and the water temperature.
 
 ## Contribute
 
