@@ -1,6 +1,7 @@
 # PyPoolPump
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Foncleben31%2Fpypool-pump.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Foncleben31%2Fpypool-pump?ref=badge_shield)
+
 
 **PyPoolPump** is a python module providing classes for computing the duration needed for a swimming pool filtering pump.
 
@@ -57,3 +58,6 @@ If you want to contribute to the development:
 ## License
 
 This software is under the MIT License.
+
+
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Foncleben31%2Fpypool-pump.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Foncleben31%2Fpypool-pump?ref=badge_large)
