@@ -3,7 +3,8 @@
 filtering.
 """
 
-from .__version__ import __version__, VERSION
+from .__version__ import VERSION, __version__
+from .run import Run
 
 
 class FilteringDuration(object):
