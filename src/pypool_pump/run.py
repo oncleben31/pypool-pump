@@ -8,10 +8,10 @@ from datetime import timedelta, datetime
 class Run:
     """Represents a single run of the pool pump."""
 
-    def __init__(self, start_time_local_tz, duration_in_minutes):
+    def __init__(self, start_time_local_tz, duration_in_hours):
         """Initialise run."""
         self._start_time = start_time_local_tz
-        self._duration = duration_in_minutes
+        self._duration = duration_in_hours
 
     def __repr__(self):
         """Return string representation of this feed."""
@@ -32,7 +32,7 @@ class Run:
     @property
     def stop_time(self):
         """Return stop time of this run."""
-        return self.start_time + timedelta(minutes=self.duration)
+        return self.start_time + timedelta(hours=self.duration)
 
     def run_now(self, local_time):
         """Check if the provided time falls within this run's timeframe."""

@@ -10,9 +10,9 @@ def test_run_propeties():
     """Test Run() properties"""
     date = datetime(2020,5,5,12,0)
     duration_in_minutes = 65
-    run = Run(date, duration_in_minutes)
+    run = Run(date, duration_in_minutes/60)
 
-    assert [run.start_time, run.duration, run.stop_time] == [date, duration_in_minutes, datetime(2020,5,5,13,5,0)]
+    assert [run.start_time, run.duration, run.stop_time] == [date, duration_in_minutes/60, datetime(2020,5,5,13,5,0)]
 
 @pytest.mark.parametrize(
     "curent_time, state",
@@ -32,7 +32,7 @@ def test_run_now(curent_time,state):
     """Test Run() run_now() methods"""
     date = datetime(2020,5,5,12,0)
     duration_in_minutes = 65
-    run = Run(date, duration_in_minutes)
+    run = Run(date, duration_in_minutes/60)
 
     assert run.run_now(curent_time) == state
 
@@ -54,25 +54,25 @@ def test_run_is_next_run(curent_time, state):
     """ Test Run() is_next_run() methods"""
     date = datetime(2020,5,5,12,0)
     duration_in_minutes = 65
-    run = Run(date, duration_in_minutes)
+    run = Run(date, duration_in_minutes/60)
 
     assert run.is_next_run(curent_time) == state
 
 def test_run_print():
     """ Test Run() prints methods"""
     date = datetime(2020,5,5,12,0)
-    duration_in_minutes = 65
-    run = Run(date, duration_in_minutes)
+    duration_in_minutes = 60
+    run = Run(date, duration_in_minutes/60)
 
-    assert "{}".format(run) == "<Run(start={}, stop={}, duration=65)>".format(datetime(2020,5,5,12,0),datetime(2020,5,5,13,5))
+    assert "{}".format(run) == "<Run(start={}, stop={}, duration=1.0)>".format(datetime(2020,5,5,12,0),datetime(2020,5,5,13,0))
 
 def test_run_pretty_print():
     """ Test Run() prints methods"""
     date = datetime.now()
     date2 = date + timedelta(days=2)
     duration_in_minutes = 65
-    run1 = Run(date, duration_in_minutes)
-    run2 = Run(date2, duration_in_minutes)
+    run1 = Run(date, duration_in_minutes/60)
+    run2 = Run(date2, duration_in_minutes/60)
 
     assert [run1.pretty_print(), run2.pretty_print() ] == [
             "{} - {}".format(date.strftime("%H:%M"), (date + timedelta(minutes=65)).strftime("%H:%M")),
