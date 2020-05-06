@@ -6,28 +6,42 @@ filtering.
 from .__version__ import VERSION, __version__
 from .run import Run
 
+from datetime import timedelta
 
 class FilteringDuration(object):
     """Root class with common parts"""
 
-    def __init__(self, percentage: float = None) -> None:
+    def __init__(self, percentage: float = 100, schedule_config = None) -> None:
         self._computed_filtering_duration: float = None
         self._modifier_pecentage: float = percentage
+        self._total_duration = None
+        self._schedule_config = schedule_config
+        
 
     def duration(self) -> float:
+        #TODO: rename method
         """Filtering duration in hours
         
         If modifier have been set, they will be applied to the computed filtering
         duration.
         Maximum duration is always 24 hours.
         """
-        consolidated_duration: float = max(
-            min(self._computed_filtering_duration, 24), 0
+        self._total_duration: float = max(
+            min(self._computed_filtering_duration * self._modifier_pecentage / 100, 24), 0
         )
-        if self._modifier_pecentage is None:
-            return consolidated_duration
-        else:
-            return consolidated_duration * self._modifier_pecentage / 100
+
+        return self._total_duration
+
+    def update_schedule(self,pivot_time):
+
+        #TODO: Add protection on total duration and schedule config
+        first_start = pivot_time - timedelta(hours=(self._total_duration + self._schedule_config['break_duration']) / 3)
+        first_duration = self._total_duration / 3
+        second_start = pivot_time + timedelta(hours=2/3 * self._schedule_config['break_duration'])
+        second_duration = 2 * first_duration
+
+        return [Run(first_start, first_duration), Run(second_start, second_duration)]
+
 
 
 class DumbFilteringDuration(FilteringDuration):
@@ -95,7 +109,7 @@ class PumpCaracteristicFilteringDuration(FilteringDuration):
     """
 
     def __init__(
-        self, pool_volume: float, pump_flow: float, percentage: float = None
+        self, pool_volume: float, pump_flow: float, percentage: float = 100
     ) -> None:
         self.pool_volume = pool_volume
         self.pump_flow = pump_flow
