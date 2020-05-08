@@ -6,7 +6,7 @@ filtering.
 from .__version__ import VERSION, __version__
 from .run import Run
 
-from datetime import timedelta
+from datetime import timedelta, datetime
 from typing import List
 
 class FilteringDuration(object):
@@ -118,7 +118,7 @@ class PumpCaracteristicFilteringDuration(FilteringDuration):
         super().__init__(percentage)
 
     def duration(
-        self, pool_temperature: float, number_of_bathers: float = None, schedule_config:Dict = {}
+        self, pool_temperature: float, number_of_bathers: float = None, schedule_config:dict = {}
     ) -> float:
         """Filtering duration in hours"""
         cycle_duration: float = self.pool_volume / self.pump_flow
