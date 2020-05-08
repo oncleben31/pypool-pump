@@ -3,6 +3,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 **PyPoolPump** is a python module providing classes for computing the duration needed for a swimming pool filtering pump.
+This module will provide methods to define the filtering daily schedule.
 
 Each classes is an implementation of a different algorithm found when searching Internet to find best way to compute the filtering pump duration.
 
@@ -11,7 +12,7 @@ Each classes is an implementation of a different algorithm found when searching 
 ### Base class
 
 `FilteringDuration()` class is the base class with no duration computation. It gather all the common code for each implementation.
-You will find a way to add a percentage modifier on the duration computed.
+You will find a way to add a percentage modifier on the duration computed and a way to construct the daily filtering schedule.
 
 You should not call directly this class except if you want to implement a new algorithm.
 
