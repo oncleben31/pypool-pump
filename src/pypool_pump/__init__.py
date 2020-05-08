@@ -7,11 +7,12 @@ from .__version__ import VERSION, __version__
 from .run import Run
 
 from datetime import timedelta
+from typing import List
 
 class FilteringDuration(object):
     """Root class with common parts"""
 
-    def __init__(self, percentage: float = 100, schedule_config:Dict = {}) -> None:
+    def __init__(self, percentage: float = 100, schedule_config:dict = {}) -> None:
         self._computed_filtering_duration: float = None
         self._modifier_pecentage: float = percentage
         self._total_duration = None
@@ -34,7 +35,8 @@ class FilteringDuration(object):
 
     def update_schedule(self,pivot_time:datetime) -> List[Run]:
 
-        #TODO: Add protection on total duration and schedule config
+        # TODO: Add protection on total duration and schedule config
+        # TODO: define strategy if total duration + break > 24
         first_start = pivot_time - timedelta(hours=(self._total_duration + self._schedule_config['break_duration']) / 3)
         first_duration = self._total_duration / 3
         second_start = pivot_time + timedelta(hours=2/3 * self._schedule_config['break_duration'])
