@@ -11,7 +11,7 @@ from datetime import timedelta
 class FilteringDuration(object):
     """Root class with common parts"""
 
-    def __init__(self, percentage: float = 100, schedule_config = None) -> None:
+    def __init__(self, percentage: float = 100, schedule_config:Dict = {}) -> None:
         self._computed_filtering_duration: float = None
         self._modifier_pecentage: float = percentage
         self._total_duration = None
@@ -32,7 +32,7 @@ class FilteringDuration(object):
 
         return self._total_duration
 
-    def update_schedule(self,pivot_time):
+    def update_schedule(self,pivot_time:datetime) -> List[Run]:
 
         #TODO: Add protection on total duration and schedule config
         first_start = pivot_time - timedelta(hours=(self._total_duration + self._schedule_config['break_duration']) / 3)
@@ -116,7 +116,7 @@ class PumpCaracteristicFilteringDuration(FilteringDuration):
         super().__init__(percentage)
 
     def duration(
-        self, pool_temperature: float, number_of_bathers: float = None
+        self, pool_temperature: float, number_of_bathers: float = None, schedule_config:Dict = {}
     ) -> float:
         """Filtering duration in hours"""
         cycle_duration: float = self.pool_volume / self.pump_flow
