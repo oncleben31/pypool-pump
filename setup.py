@@ -12,13 +12,12 @@ from shutil import rmtree
 from setuptools import Command, find_packages, setup
 
 # Package meta-data.
-NAME = "pypool-pump"
+NAME = "pypool_pump"
 PYTHON_PACKAGE_FOLDER = "pypool_pump"
-DESCRIPTION = "Pool filtering pump duration"
+DESCRIPTION = "Calculate pool filtering pump duration and schedule"
 URL = "https://github.com/oncleben31/pypool-pump"
 EMAIL = "oncleben31@gmail.com"
 AUTHOR = "Oncleben31"
-REQUIRES_PYTHON = ">=2.7.0"
 VERSION = None
 
 # What packages are required for this module to be executed?
@@ -91,7 +90,6 @@ setup(
     long_description_content_type="text/markdown",
     author=AUTHOR,
     author_email=EMAIL,
-    python_requires=REQUIRES_PYTHON,
     url=URL,
     packages=find_packages("src"),
     package_dir={"": "src"},
@@ -103,10 +101,7 @@ setup(
         # Full list: https://pypi.python.org/pypi?%3Aaction=list_classifiers
         "License :: OSI Approved :: MIT License",
         "Programming Language :: Python",
-        "Programming Language :: Python :: 2",
-        "Programming Language :: Python :: 3.7",
         "Programming Language :: Python :: 3",
-        "Programming Language :: Python :: 3.6",
     ],
     # $ setup.py publish support.
     cmdclass={"upload": UploadCommand},
