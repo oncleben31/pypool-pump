@@ -42,6 +42,15 @@ class FilteringDuration(object):
         second_start = pivot_time + timedelta(hours=2/3 * self._schedule_config['break_duration'])
         second_duration = 2 * first_duration
 
+        # If second_start + second_duration > 0h00 : update first_start with (second_start + second_duration - 0h00)
+        if second_start + timedelta(hours=second_duration) >= datetime.combine(second_start, datetime.max.time(), second_start.tzinfo):
+            delta = second_start + timedelta(hours=second_duration) - datetime.combine(second_start + timedelta(hours=second_duration), datetime.min.time(), second_start.tzinfo)
+            # First start need to be earlier
+            first_start = first_start - delta
+            # TODO: Update first_duration
+            first_duration = int( (pivot_time - first_start).total_seconds() ) / 3600
+            # TODO: Update second_duration
+            second_duration = int( ( datetime.combine(second_start, datetime.max.time(), second_start.tzinfo) - pivot_time ).total_seconds() ) / 3600
         return [Run(first_start, first_duration), Run(second_start, second_duration)]
 
 
