@@ -47,9 +47,9 @@ class FilteringDuration(object):
             delta = second_start + timedelta(hours=second_duration) - datetime.combine(second_start + timedelta(hours=second_duration), datetime.min.time(), second_start.tzinfo)
             # First start need to be earlier
             first_start = first_start - delta
-            # TODO: Update first_duration
+            # Update first_duration
             first_duration = int( (pivot_time - first_start).total_seconds() ) / 3600
-            # TODO: Update second_duration
+            # Update second_duration
             second_duration = int( ( datetime.combine(second_start, datetime.max.time(), second_start.tzinfo) - pivot_time ).total_seconds() ) / 3600
         return [Run(first_start, first_duration), Run(second_start, second_duration)]
 
